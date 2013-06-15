@@ -1,10 +1,11 @@
 #!/usr/bin/perl -w
 
-use Test::Simple tests => 32;
+use Test::More tests => 32;
 
 use lib '../lib/';
 use lib 'lib/';
 use PortageXS;
+use Test::Fatal qw(exception);
 
 my $pxs = PortageXS->new();
 ok(defined $pxs,'check if PortageXS->new() works');
@@ -86,7 +87,8 @@ ok(!$pxs->fileBelongsToPackage('/this/path/most/likely/does/not/exist'),'fileBel
 
 # - getArch >
 {
-	my $arch = $pxs->getArch;
+	my $arch;
+    is( exception { $pxs->getArch }, undef, '->getArch does not die'); 
 	ok($arch,'getArch returns a value: '.$arch);
 }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-use Test::Simple tests => 4;
+use Test::More tests => 4;
 
 use lib '../lib/';
 use lib 'lib/';
