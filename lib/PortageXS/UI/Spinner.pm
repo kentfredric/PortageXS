@@ -24,11 +24,23 @@ package PortageXS::UI::Spinner;
 use Moo;
 use IO::Handle;
 
+=begin MetaPOD::JSON v1.1.0
+
+{
+    "namespace":"PortageXS::UI::Spinner",
+    "inherits":"Moo",
+    "interface":"class"
+}
+
+=end MetaPOD::JSON
+
+=cut
+
 =head1 SYNOPSIS
 
     use PortageXS::UI::Spinner;
 
-    my $spinner = PortageXS::UI::Spinner->new();
+    my $spinner = PortageXS::UI::Spinner->new(%attributes);
 
     for ( 0..1000 ){
         sleep 0.1;
@@ -38,44 +50,72 @@ use IO::Handle;
 
 =cut
 
-=attr spinstate
+=attr C<spinstate>
+
+The index of the I<next> spin state to dispatch.
 
 =cut
 
 has spinstate => ( is => rwp =>, default => sub { 0 } );
 
-=attr output_handle
+=attr C<output_handle>
+
+The C<filehandle> to write L<< C<spin>|/spin >> and L<< C<reset>|/reset >> output to.
+
+Defaults to C<*STDOUT>.
+
+B<Note:> Turns on C<autoflush> for C<*STDOUT> if no handle is passed explicitly.
 
 =cut
 
 has output_handle => (
-    is => ro =>, default => sub {
+    is      => ro =>,
+    default => sub {
         my $handle = \*STDOUT;
         $handle->autoflush(1);
         return $handle;
-});
+    }
+);
 
-=attr spinstates
+=attr C<spinstates>
+
+The array of spinstates to dispatch
+
+Defaults to:
+
+    qw(
+        /
+        -
+        \
+        |
+    )
 
 =cut
 
-has spinstates => ( is => ro =>, default => sub {
-    ['/', '-', '\\','|']
-});
+has spinstates => (
+    is      => ro =>,
+    default => sub {
+        [ '/', '-', '\\', '|' ];
+    }
+);
 
-=p_method _last_spinstate
+=p_method C<_last_spinstate>
+
+The number of L<< C<spinstates>|/spinstates >> this C<::Spinner> object has.
 
 =cut
 
-sub _last_spinstate {  return $#{ $_[0]->spinstates } }
+sub _last_spinstate { return $#{ $_[0]->spinstates } }
 
-=p_method _increment_spinstate
+=p_method C<_increment_spinstate>
+
+Increment the position within the L<< C<spinstates>|/spinstates >> array by one, updating L<< C<spinstate>|/spinstate >>
 
 =cut
 
 sub _increment_spinstate {
-    my $self = shift;
-    my $rval = $self->spinstate;
+    my $self      = shift;
+    my $rval      = $self->spinstate;
     my $nextstate = $rval + 1;
     if ( $nextstate > $self->_last_spinstate ) {
         $nextstate = 0;
@@ -83,7 +123,10 @@ sub _increment_spinstate {
     $self->_set_spinstate($nextstate);
     return $rval;
 }
-=p_method _get_next_spinstate
+
+=p_method C<_get_next_spinstate>
+
+Returns the next character from the L<< C<spinstates>|/spinstates >> array
 
 =cut
 
@@ -92,7 +135,9 @@ sub _get_next_spinstate {
     return $states[ $_[0]->_increment_spinstate ];
 }
 
-=p_method _print_to_output
+=p_method C<_print_to_output>
+
+Internal wrapper to proxy C<print> to L<< C<output_handle>|/output_handle >>
 
 =cut
 
@@ -101,16 +146,26 @@ sub _print_to_output {
     $self->output_handle->print(@_);
 }
 
-=method spin
+=method C<spin>
+
+Emits a backspace and the next spin character to L<< C<output_handle>|/output_handle >>
 
 =cut
 
 sub spin {
-	my $self	= shift;
-    $self->_print_to_output("\b" . $self->_get_next_spinstate );
+    my $self = shift;
+    $self->_print_to_output( "\b" . $self->_get_next_spinstate );
 }
 
-=method reset
+=method C<reset>
+
+Emits a spin-character clearing sequence to L<< C<output_handle>|/output_handle >>
+
+This is just
+
+    \b : backspace over last character
+    \s : print a space to erase past characters
+    \b : backspace again to prepare for more output
 
 =cut
 
