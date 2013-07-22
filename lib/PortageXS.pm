@@ -69,12 +69,12 @@ sub new {
 	my $pxs = bless {}, $self;
 
 	$pxs->{'VERSION'}			= $PortageXS::VERSION;
-	
+
 	$pxs->{'PORTDIR'}			= $pxs->getPortdir();
 	$pxs->{'PKG_DB_DIR'}			= '/var/db/pkg/';
 	$pxs->{'PATH_TO_WORLDFILE'}		= '/var/lib/portage/world';
 	$pxs->{'IS_INITIALIZED'}		= 1;
-	
+
 	$pxs->{'EXCLUDE_DIRS'}{'.'}		= 1;
 	$pxs->{'EXCLUDE_DIRS'}{'..'}		= 1;
 	$pxs->{'EXCLUDE_DIRS'}{'metadata'}	= 1;
@@ -84,7 +84,7 @@ sub new {
 	$pxs->{'EXCLUDE_DIRS'}{'profiles'}	= 1;
 	$pxs->{'EXCLUDE_DIRS'}{'CVS'}		= 1;
 	$pxs->{'EXCLUDE_DIRS'}{'.cache'}	= 1;
-	
+
 	$pxs->{'PORTAGEXS_ETC_DIR'}		= '/etc/pxs/';
 	$pxs->{'ETC_DIR'}			= '/etc/';
 
@@ -121,7 +121,7 @@ sub new {
 	$pxs->{'COLORS'}{'RED'}			= color('bold red');
 	$pxs->{'COLORS'}{'BLUE'}		= color('bold blue');
 	$pxs->{'COLORS'}{'RESET'}		= color('reset');
-	
+
 	my $makeconf = $pxs->getFileContents($pxs->{'MAKE_CONF_PATH'});
 	my $want_nocolor = lc($pxs->getParamFromFile($makeconf,'NOCOLOR','lastseen'));
 

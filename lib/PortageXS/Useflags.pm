@@ -45,7 +45,7 @@ our @EXPORT = qw(
 # $usedesc=getUsedesc('perl','/usr/portage');
 sub getUsedesc {
 	my $self	= shift;
-	
+
 	return ($self->getUsedescs(@_))[0];
 }
 
@@ -62,7 +62,7 @@ sub getUsedescs {
 	my $package	= shift;
 	my @p		= ();
 	my @descs	= ();
-	
+
 	if (-e $repo.'/profiles/use.desc') {
 		if (!$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.desc'}{'initialized'}) {
 			foreach (split(/\n/,$self->getFileContents($repo.'/profiles/use.desc'))) {
@@ -73,18 +73,18 @@ sub getUsedescs {
 			}
 			$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.desc'}{'initialized'}=1;
 		}
-		
+
 		if ($self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.desc'}{'use'}{$use}) {
 			push(@descs,$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.desc'}{'use'}{$use});
 		}
 	}
-	
+
 	if ($package) {
 		if (-e $repo.'/profiles/use.local.desc') {
 			if (!$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}) {
 				$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}=$self->getFileContents($repo.'/profiles/use.local.desc');
 			}
-			
+
 			foreach (split(/\n/,$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'})) {
 				if ($_) {
 					@p=split(/ - /,$_);
@@ -95,7 +95,7 @@ sub getUsedescs {
 			}
 		}
 	}
-	
+
 	return @descs;
 }
 
@@ -155,7 +155,7 @@ sub getUsemasksFromProfile {
 	my $c		= 0;
 	my %maskedUses	= ();
 	my @useflags	= ();
-	
+
 	if (!$self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'}) {
 		if(!-e $self->{'MAKE_PROFILE_PATH'}) {
 			$self->print_err('Profile not set!');
@@ -164,7 +164,7 @@ sub getUsemasksFromProfile {
 		else {
 			$curPath=$self->getProfilePath();
 		}
-		
+
 # 		while(1) {
 # 			print "-->".$curPath."<--\n";
 # 			if (-e $curPath.'/use.mask') {
@@ -176,20 +176,20 @@ sub getUsemasksFromProfile {
 # 			$curPath.='/'.$parent;
 # 		}
 		@files = $self->getUsemasksFromProfileHelper($curPath);
-		
+
 		$buffer.=$self->getFileContents($self->{'PORTDIR'}.'/profiles/base/use.mask')."\n";
 		foreach(reverse(@files)) {
 			$buffer.=$self->getFileContents($_)."\n";
 		}
-		
+
 		# - split file in lines >
 		@lines = split(/\n/,$buffer);
-		
+
 		for($c=0;$c<=$#lines;$c++) {
 			next if $lines[$c]=~m/^#/;
 			next if $lines[$c] eq "\n";
 			next if $lines[$c] eq '';
-			
+
 			if (substr($lines[$c],0,1) eq '-') {
 				# - unmask use >
 				$maskedUses{substr($lines[$c],1,length($lines[$c])-1)}=0;
@@ -198,20 +198,20 @@ sub getUsemasksFromProfile {
 				$maskedUses{$lines[$c]}=1;
 			}
 		}
-		
+
 		foreach (keys %maskedUses) {
 			if ($maskedUses{$_}) {
 				push(@useflags,$_);
 			}
 		}
-		
+
 		# - Setup cache >
 		$self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'}=join(' ',@useflags);
 	}
 	else {
 		@useflags=split(/ /,$self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'});
 	}
-	
+
 	return @useflags;
 }
 
