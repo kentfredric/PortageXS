@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::System::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::System::VERSION = '0.2.12';
+  $PortageXS::System::VERSION = '0.1.0';
 }
 
 # -----------------------------------------------------------------------------
@@ -92,7 +92,7 @@ PortageXS::System
 
 =head1 VERSION
 
-version 0.2.12
+version 0.1.0
 
 =head1 AUTHORS
 

@@ -3,7 +3,7 @@ BEGIN {
   $PortageXS::Version::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Version::VERSION = '0.2.12';
+  $PortageXS::Version::VERSION = '0.1.0';
 }
 
 use strict;
@@ -181,7 +181,7 @@ PortageXS::Version
 
 =head1 VERSION
 
-version 0.2.12
+version 0.1.0
 
 =head1 DESCRIPTION
 

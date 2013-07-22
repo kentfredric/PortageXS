@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::UI::Console::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::UI::Console::VERSION = '0.2.12';
+  $PortageXS::UI::Console::VERSION = '0.1.0';
 }
 
 # -----------------------------------------------------------------------------
@@ -208,7 +208,7 @@ PortageXS::UI::Console
 
 =head1 VERSION
 
-version 0.2.12
+version 0.1.0
 
 =head1 AUTHORS
 

@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Core::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Core::VERSION = '0.2.12';
+  $PortageXS::Core::VERSION = '0.1.0';
 }
 
 # -----------------------------------------------------------------------------
@@ -116,7 +116,7 @@ sub getPortageMakeParam {
 	my $self		= shift;
 	my $param		= shift;
 	my @files		= ();
-	my @etcfiles		= qw(/etc/make.globals /etc/make.conf);
+	my @etcfiles		= qw(/usr/share/portage/config/make.globals /etc/make.conf);
 	my $v			= '';
 	my $parent		= '';
 	my $curPath;
@@ -187,7 +187,7 @@ sub getPortdir {
 		return $self->{'PORTDIR'};
 	}
 	else {
-		$self->{'PORTDIR'}=$self->getParamFromFile($self->getFileContents('/etc/make.globals').$self->getFileContents('/etc/make.conf'),'PORTDIR','lastseen');
+		$self->{'PORTDIR'}=$self->getParamFromFile($self->getFileContents('/usr/share/portage/config/make.globals').$self->getFileContents('/etc/portage/make.conf'),'PORTDIR','lastseen');
 		return $self->{'PORTDIR'};
 	}
 }
@@ -204,7 +204,7 @@ sub getPortdirOverlay {
 	my $self	= shift;
 	my $forcereload	= shift;
 	
-	return split(/ /,$self->getParamFromFile($self->getFileContents('/etc/make.globals').$self->getFileContents('/etc/make.conf'),'PORTDIR_OVERLAY','lastseen'));
+	return split(/ /,$self->getParamFromFile($self->getFileContents('/usr/share/portage/config/make.globals').$self->getFileContents('/etc/make.conf'),'PORTDIR_OVERLAY','lastseen'));
 }
 
 # Description:
@@ -912,7 +912,7 @@ PortageXS::Core
 
 =head1 VERSION
 
-version 0.2.12
+version 0.1.0
 
 =head1 AUTHORS
 

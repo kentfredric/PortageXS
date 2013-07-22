@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Useflags::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Useflags::VERSION = '0.2.12';
+  $PortageXS::Useflags::VERSION = '0.1.0';
 }
 
 # -----------------------------------------------------------------------------
@@ -229,7 +229,7 @@ PortageXS::Useflags
 
 =head1 VERSION
 
-version 0.2.12
+version 0.1.0
 
 =head1 AUTHORS
 

@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::UI::Spinner::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::UI::Spinner::VERSION = '0.2.12';
+  $PortageXS::UI::Spinner::VERSION = '0.1.0';
 }
 
 # -----------------------------------------------------------------------------
@@ -67,7 +67,7 @@ PortageXS::UI::Spinner
 
 =head1 VERSION
 
-version 0.2.12
+version 0.1.0
 
 =head1 AUTHORS
 

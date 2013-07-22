@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::VERSION = '0.2.12';
+  $PortageXS::VERSION = '0.1.0';
 }
 # ABSTRACT: Portage abstraction layer for perl
 
@@ -68,7 +68,7 @@ sub new {
 
 	my $pxs = bless {}, $self;
 
-	$pxs->{'VERSION'}			= $VERSION;
+	$pxs->{'VERSION'}			= $PortageXS::VERSION;
 	
 	$pxs->{'PORTDIR'}			= $pxs->getPortdir();
 	$pxs->{'PKG_DB_DIR'}			= '/var/db/pkg/';
@@ -87,8 +87,31 @@ sub new {
 	
 	$pxs->{'PORTAGEXS_ETC_DIR'}		= '/etc/pxs/';
 	$pxs->{'ETC_DIR'}			= '/etc/';
-	$pxs->{'MAKE_PROFILE_PATH'}		= '/etc/make.profile';
-	
+
+	$pxs->{'MAKE_PROFILE_PATHS'} = [
+		'/etc/make.profile',
+		'/etc/portage/make.profile'
+	];
+
+	$pxs->{'MAKE_CONF_PATHS'} = [
+		'/etc/make.conf',
+		'/etc/portage/make.conf'
+	];
+
+	for my $path ( @{ $pxs->{'MAKE_PROFILE_PATHS'} } ) {
+		next unless -e $path;
+		$pxs->{'MAKE_PROFILE_PATH'} = $path;
+	}
+	if ( not defined $pxs->{'MAKE_PROFILE_PATH'} ) {
+		die "Error, none of paths for `make.profile` exists." . join q{, }, @{ $pxs->{'MAKE_PROFILE_PATHS'} };
+	}
+	for my $path ( @{ $pxs->{'MAKE_CONF_PATHS'} } ) {
+		next unless -e $path;
+		$pxs->{'MAKE_CONF_PATH'} = $path;
+	}
+	if ( not defined $pxs->{'MAKE_CONF_PATH'} ) {
+		die "Error, none of paths for `make.conf` exists." . join q{, }, @{ $pxs->{'MAKE_CONF_PATHS'} };
+	}
 	# - init colors >
 	$pxs->{'COLORS'}{'YELLOW'}		= color('bold yellow');
 	$pxs->{'COLORS'}{'GREEN'}		= color('green');
@@ -99,7 +122,10 @@ sub new {
 	$pxs->{'COLORS'}{'BLUE'}		= color('bold blue');
 	$pxs->{'COLORS'}{'RESET'}		= color('reset');
 	
-	if (lc($pxs->getParamFromFile($pxs->getFileContents('/etc/make.conf'),'NOCOLOR','lastseen')) eq 'true') {
+	my $makeconf = $pxs->getFileContents($pxs->{'MAKE_CONF_PATH'});
+	my $want_nocolor = lc($pxs->getParamFromFile($makeconf,'NOCOLOR','lastseen'));
+
+	if ($want_nocolor eq 'true') {
 		$pxs->{'COLORS'}{'YELLOW'}		= '';
 		$pxs->{'COLORS'}{'GREEN'}		= '';
 		$pxs->{'COLORS'}{'LIGHTGREEN'}		= '';
@@ -128,7 +154,7 @@ PortageXS - Portage abstraction layer for perl
 
 =head1 VERSION
 
-version 0.2.12
+version 0.1.0
 
 =head1 AUTHORS
 
