@@ -8,7 +8,7 @@ BEGIN {
 {
   $PortageXS::UI::Console::VERSION = '0.1.0';
 }
-
+# ABSTRACT: Console interface role for PortageXS
 # -----------------------------------------------------------------------------
 #
 # PortageXS::UI::Console
@@ -204,7 +204,7 @@ __END__
 
 =head1 NAME
 
-PortageXS::UI::Console
+PortageXS::UI::Console - Console interface role for PortageXS
 
 =head1 VERSION
 

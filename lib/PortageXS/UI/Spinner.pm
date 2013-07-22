@@ -8,7 +8,7 @@ BEGIN {
 {
   $PortageXS::UI::Spinner::VERSION = '0.1.0';
 }
-
+# ABSTRACT: Dancing \|/- progress bling for consoles.
 # -----------------------------------------------------------------------------
 #
 # PortageXS::UI::Spinner
@@ -63,7 +63,7 @@ __END__
 
 =head1 NAME
 
-PortageXS::UI::Spinner
+PortageXS::UI::Spinner - Dancing \|/- progress bling for consoles.
 
 =head1 VERSION
 
