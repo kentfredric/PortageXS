@@ -54,9 +54,9 @@ requires:
   strict: 0
   warnings: 0
 resources:
-  bugtracker: https://github.com/kentfredric/PortageXS/issues
-  homepage: https://github.com/kentfredric/PortageXS
-  repository: https://github.com/kentfredric/PortageXS.git
+  bugtracker: https://github.com/gentoo-perl/PortageXS/issues
+  homepage: https://github.com/gentoo-perl/PortageXS
+  repository: https://github.com/gentoo-perl/PortageXS.git
 version: 0.2.12
 x_BuiltWith:
   modules:

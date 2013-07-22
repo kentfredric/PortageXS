@@ -97,13 +97,13 @@
    "release_status" : "stable",
    "resources" : {
       "bugtracker" : {
-         "web" : "https://github.com/kentfredric/PortageXS/issues"
+         "web" : "https://github.com/gentoo-perl/PortageXS/issues"
       },
-      "homepage" : "https://github.com/kentfredric/PortageXS",
+      "homepage" : "https://github.com/gentoo-perl/PortageXS",
       "repository" : {
          "type" : "git",
-         "url" : "https://github.com/kentfredric/PortageXS.git",
-         "web" : "https://github.com/kentfredric/PortageXS"
+         "url" : "https://github.com/gentoo-perl/PortageXS.git",
+         "web" : "https://github.com/gentoo-perl/PortageXS"
       }
    },
    "version" : "0.2.12",
