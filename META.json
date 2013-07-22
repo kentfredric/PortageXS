@@ -238,11 +238,6 @@
             "version" : "1.08"
          },
          {
-            "class" : "Dist::Zilla::Plugin::Test::Kwalitee",
-            "name" : "@Author::KENTNL/Test::Kwalitee",
-            "version" : "2.03"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::EOLTests",
             "name" : "@Author::KENTNL/EOLTests",
             "version" : "0.02"
