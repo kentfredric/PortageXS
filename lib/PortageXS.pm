@@ -169,7 +169,7 @@ has lived for a while in the C<Gentoo> ecosystem as this name, and changing a na
 
 =item * No XS
 
-Though the name says C<XS> in it, you'll see there is no C<XS> anywhere in the tree. This, I imagine, is a result of naming crossover, and C<XS> here means more C<Access> or something. 
+Though the name says C<XS> in it, you'll see there is no C<XS> anywhere in the tree. This, I imagine, is a result of naming crossover, and C<XS> here means more C<Access> or something.
 
 =back
 
@@ -194,10 +194,10 @@ Will be changed evenutally.
 
 =head2 Poor encapsulation and many classes directly modifying hash keys.
 
-All over the codebase there are weird tricks to make sure specific hash keys are present, 
-and populate them lazily, and some tricks are implemented the same way a dozen times. 
+All over the codebase there are weird tricks to make sure specific hash keys are present,
+and populate them lazily, and some tricks are implemented the same way a dozen times.
 
-All direct hash manipulation is scheduled to be ripped out unceremoniously in a future release, 
+All direct hash manipulation is scheduled to be ripped out unceremoniously in a future release,
 in favour of more sane tools like C<Moo> based accessors, lazy loading and things like that.
 
 =head2 Poor concern seperation
