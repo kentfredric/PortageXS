@@ -68,7 +68,6 @@ x_BuiltWith:
     File::Find: 1.23
     File::Temp: 0.2301
     Module::Build: 0.4005
-    Pod::Coverage::TrustPod: 0.100002
     Scalar::Util: 1.27
     Shell::EnvImporter: 1.06
     Term::ANSIColor: 4.02
@@ -76,7 +75,6 @@ x_BuiltWith:
     Test::CPAN::Meta: 0.23
     Test::More: 0.98
     Test::Pod: 1.48
-    Test::Pod::Coverage: 1.08
     Test::Simple: 0.98
     lib: 0.63
     overload: 1.22
@@ -157,10 +155,6 @@ x_Dist_Zilla:
     -
       class: Dist::Zilla::Plugin::MetaTests
       name: '@Author::KENTNL/MetaTests'
-      version: 4.300035
-    -
-      class: Dist::Zilla::Plugin::PodCoverageTests
-      name: '@Author::KENTNL/PodCoverageTests'
       version: 4.300035
     -
       class: Dist::Zilla::Plugin::PodSyntaxTests
