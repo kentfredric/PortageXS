@@ -71,7 +71,6 @@ x_BuiltWith:
     Scalar::Util: 1.27
     Shell::EnvImporter: 1.06
     Term::ANSIColor: 4.02
-    Test::CPAN::Changes: 0.20
     Test::CPAN::Meta: 0.23
     Test::More: 0.98
     Test::Pod: 1.48
@@ -248,10 +247,6 @@ x_Dist_Zilla:
       class: Dist::Zilla::Plugin::ReadmeAnyFromPod
       name: '@Author::KENTNL/ReadmeAnyFromPod'
       version: 0.131500
-    -
-      class: Dist::Zilla::Plugin::Test::CPAN::Changes
-      name: '@Author::KENTNL/Test::CPAN::Changes'
-      version: 0.008
     -
       class: Dist::Zilla::Plugin::CheckExtraTests
       name: '@Author::KENTNL/CheckExtraTests'
