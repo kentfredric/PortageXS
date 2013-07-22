@@ -64,7 +64,6 @@ t/05_Console.t
 usr/bin/portagexs_client
 usr/sbin/portagexsd
 weaver.ini
-xt/author/critic.t
 xt/release/cpan-changes.t
 xt/release/distmeta.t
 xt/release/eol.t

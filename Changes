@@ -1,6 +1,6 @@
 Revision history for PortageXS
 
-0.1.0 2013-07-22T14:26:25Z
+0.1.0 2013-07-22T14:26:39Z
   - Package toolkit migrated to Dist::Zilla
   - b.g.o #437414 Now fixed in the code.
   - Maintainer/Release of codebase taken up by KENTNL (kentnl@cpan.org)

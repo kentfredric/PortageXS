@@ -267,11 +267,6 @@
             "version" : "2.002"
          },
          {
-            "class" : "Dist::Zilla::Plugin::Test::Perl::Critic",
-            "name" : "@Author::KENTNL/Test::Perl::Critic",
-            "version" : "2.112410"
-         },
-         {
             "class" : "Dist::Zilla::Plugin::PruneCruft",
             "name" : "@Author::KENTNL/PruneCruft",
             "version" : "4.300035"
