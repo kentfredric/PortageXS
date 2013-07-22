@@ -20,24 +20,13 @@ package PortageXS::UI::Console;
 #
 # -----------------------------------------------------------------------------
 
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			printColored
-			print_ok
-			print_err
-			print_info
-			setPrintColor
-			cmdAskUser
-			formatUseflags
-			disableColors
-		);
+use Moo::Role;
 
 # Description:
 # Prints gentoo-style items.
 sub printColored {
 	my $self	= shift;
-	print ' ' . $self->{'COLORS'}{shift()} . '* ' . $self->{'COLORS'}{'RESET'} . shift() , @_;
+	print ' ' . $self->colors->{shift()} . '* ' . $self->colors->{'RESET'} . shift() , @_;
 }
 
 # Description:
@@ -65,7 +54,7 @@ sub print_info {
 # Changes color to given param >
 sub setPrintColor {
 	my $self	= shift;
-	print $self->{'COLORS'}{shift()};
+	print $self->colors->{shift()};
 }
 
 # Description:
@@ -160,7 +149,14 @@ sub formatUseflags {
 			$c{'useflag'}=~s/\*//g;
 		}
 		
-		$c{'compiled'}=$self->{'COLORS'}{$c{'color'}}.$c{'prefix'}.$c{'useflag'}.$self->{'COLORS'}{'RESET'}.$c{'suffix'};
+		$c{'compiled'}=
+            $self->colors->{$c{'color'}}
+            .
+            $c{'prefix'}
+            .
+            $c{'useflag'}
+            .
+            $self->colors->{'RESET'}.$c{'suffix'};
 		
 		if ($masked{$c{'useflag'}}) {
 			$c{'compiled'}='('.$c{'compiled'}.')';
@@ -182,8 +178,8 @@ sub formatUseflags {
 # $pxs->disableColors();
 sub disableColors {
 	my $self	= shift;
-	foreach my $k1 (keys %{$self->{'COLORS'}}) {
-		$self->{'COLORS'}{$k1}='';
+	foreach my $k1 (keys %{$self->colors}) {
+		$self->colors->{$k1}='';
 	}
 	return 1;
 }

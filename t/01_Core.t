@@ -13,12 +13,6 @@ ok(defined $pxs,'check if PortageXS->new() works');
 # - getPortDir >
 ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
 
-# - getFileContents >
-{
-	my $content = $pxs->getFileContents('/etc/make.conf');
-	ok($content ne '','getFileContents of /etc/make.conf');
-}
-
 # - searchInstalledPackage >
 {
 	my @packages = $pxs->searchInstalledPackage('dev-lang/perl');
@@ -27,7 +21,7 @@ ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
 
 # - getParamFromFile >
 {
-	my $param = $pxs->getParamFromFile($pxs->getFileContents('/etc/make.conf'),'CFLAGS','lastseen');
+	my $param = $pxs->config->getParam('CFLAGS','lastseen');
 	ok($param ne '','getParamFromFile /etc/make.conf - CFLAGS: '.$param);
 }
 
@@ -45,11 +39,12 @@ ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
 
 # - getPortageXScategorylist >
 {
-	my $oldpath = $pxs->{'PORTAGEXS_ETC_DIR'};
-	$pxs->{'PORTAGEXS_ETC_DIR'}="./".$pxs->{'PORTAGEXS_ETC_DIR'};
+    use Path::Tiny qw(path);
+	my $oldpath = $pxs->paths->etc_pxs;
+	$pxs->paths->{etc_pxs} = path('./' . $oldpath );
 	my @entries = $pxs->getPortageXScategorylist('perl');
 	ok($#entries>0,'getPortageXScategorylist - perl: '.join(' ',@entries));
-	$pxs->{'PORTAGEXS_ETC_DIR'}=$oldpath;
+	$pxs->paths->{etc_pxs} =  $oldpath;
 }
 
 # - getAvailableArches >
@@ -89,7 +84,8 @@ ok(!$pxs->fileBelongsToPackage('/this/path/most/likely/does/not/exist'),'fileBel
 {
 	my $arch;
     is( exception { $pxs->getArch }, undef, '->getArch does not die'); 
-	ok($arch,'getArch returns a value: '.$arch);
+    diag(explain({ arch => $arch}));
+	ok($arch,'getArch returns a value');
 }
 
 # - getReponame >

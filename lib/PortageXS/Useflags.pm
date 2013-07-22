@@ -21,15 +21,8 @@ package PortageXS::Useflags;
 # -----------------------------------------------------------------------------
 
 use DirHandle;
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			getUsedesc
-			getUsedescs
-			sortUseflags
-			getUsemasksFromProfile
-			getUsemasksFromProfileHelper
-		);
+use Moo::Role;
+use Path::Tiny;
 
 # Description:
 # Returns useflag description of the given useflag and repository.
@@ -57,9 +50,9 @@ sub getUsedescs {
 	my @p		= ();
 	my @descs	= ();
 	
-	if (-e $repo.'/profiles/use.desc') {
+	if (-e ( my $use_desc = path($repo.'/profiles/use.desc'))) {
 		if (!$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.desc'}{'initialized'}) {
-			foreach (split(/\n/,$self->getFileContents($repo.'/profiles/use.desc'))) {
+			foreach ($use_desc->lines({ chomp => 1 })) {
 				if ($_) {
 					@p=split(/ - /,$_);
 					$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.desc'}{'use'}{$p[0]}=$p[1];
@@ -74,11 +67,10 @@ sub getUsedescs {
 	}
 	
 	if ($package) {
-		if (-e $repo.'/profiles/use.local.desc') {
+		if (-e ( my $use_local_desc = path($repo.'/profiles/use.local.desc'))) {
 			if (!$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}) {
-				$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}=$self->getFileContents($repo.'/profiles/use.local.desc');
+				$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}=$use_local_desc->slurp();
 			}
-			
 			foreach (split(/\n/,$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'})) {
 				if ($_) {
 					@p=split(/ - /,$_);
@@ -145,19 +137,20 @@ sub getUsemasksFromProfile {
 	my @files	= ();
 	my $parent	= '';
 	my $buffer	= '';
-	my @lines	= ();
 	my $c		= 0;
 	my %maskedUses	= ();
-	my @useflags	= ();
-	
-	if (!$self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'}) {
-		if(!-e $self->{'MAKE_PROFILE_PATH'}) {
-			$self->print_err('Profile not set!');
-			exit(0);
-		}
-		else {
-			$curPath=$self->getProfilePath();
-		}
+
+    if ($self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'}) {
+	    return split(/ /,$self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'});
+    }
+
+    if(!-e $self->paths->make_profile ) {
+	    $self->print_err('Profile not set!');
+		exit(0);
+	}
+	else {
+	    $curPath=$self->getProfilePath();
+	}
 		
 # 		while(1) {
 # 			print "-->".$curPath."<--\n";
@@ -169,42 +162,40 @@ sub getUsemasksFromProfile {
 # 			chomp($parent);
 # 			$curPath.='/'.$parent;
 # 		}
-		@files = $self->getUsemasksFromProfileHelper($curPath);
-		
-		$buffer.=$self->getFileContents($self->{'PORTDIR'}.'/profiles/base/use.mask')."\n";
-		foreach(reverse(@files)) {
-			$buffer.=$self->getFileContents($_)."\n";
-		}
-		
-		# - split file in lines >
-		@lines = split(/\n/,$buffer);
-		
-		for($c=0;$c<=$#lines;$c++) {
-			next if $lines[$c]=~m/^#/;
-			next if $lines[$c] eq "\n";
-			next if $lines[$c] eq '';
-			
-			if (substr($lines[$c],0,1) eq '-') {
-				# - unmask use >
-				$maskedUses{substr($lines[$c],1,length($lines[$c])-1)}=0;
-			}
-			else {
-				$maskedUses{$lines[$c]}=1;
-			}
-		}
-		
-		foreach (keys %maskedUses) {
-			if ($maskedUses{$_}) {
-				push(@useflags,$_);
-			}
-		}
-		
-		# - Setup cache >
-		$self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'}=join(' ',@useflags);
+	@files = $self->getUsemasksFromProfileHelper($curPath);
+	
+    my @lines;
+
+	push @lines, $self->paths->portdir->child('profiles','base','use.mask')->lines({ chomp => 1 });
+
+	foreach(reverse(@files)) {
+        push @lines, $_->lines({ chomp => 1 });
 	}
-	else {
-		@useflags=split(/ /,$self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'});
-	}
+		
+    for($c=0;$c<=$#lines;$c++) {
+        next if $lines[$c]=~m/^#/;
+        next if $lines[$c] eq "\n";
+        next if $lines[$c] eq '';
+        
+        if (substr($lines[$c],0,1) eq '-') {
+            # - unmask use >
+            $maskedUses{substr($lines[$c],1,length($lines[$c])-1)}=0;
+        }
+        else {
+            $maskedUses{$lines[$c]}=1;
+        }
+    }
+
+    my @useflags;
+    
+    foreach (keys %maskedUses) {
+        if ($maskedUses{$_}) {
+            push(@useflags,$_);
+        }
+    }
+    
+    # - Setup cache >
+    $self->{'CACHE'}{'Useflags'}{'getUsemasksFromProfile'}{'useflags'}=join(' ',@useflags);
 	
 	return @useflags;
 }
