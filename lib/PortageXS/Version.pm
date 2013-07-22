@@ -6,6 +6,8 @@ BEGIN {
   $PortageXS::Version::VERSION = '0.1.0';
 }
 
+# ABSTRACT: Gentoo version object
+
 use strict;
 use warnings;
 
@@ -177,7 +179,7 @@ __END__
 
 =head1 NAME
 
-PortageXS::Version
+PortageXS::Version - Gentoo version object
 
 =head1 VERSION
 
@@ -187,9 +189,7 @@ version 0.1.0
 
 This class models Gentoo versions as described in L<http://devmanual.gentoo.org/ebuild-writing/file-format/index.html>.
 
-=head1 NAME
-
-PortageXS::Version - Gentoo version object.
+This specific class is a deviation of L<CPANPLUS::Dist::Gentoo::Version>
 
 =head1 METHODS
 

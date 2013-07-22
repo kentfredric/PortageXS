@@ -9,6 +9,8 @@ BEGIN {
   $PortageXS::Core::VERSION = '0.1.0';
 }
 
+# ABSTRACT: Core behaviour role for C<PortageXS>
+#
 # -----------------------------------------------------------------------------
 #
 # PortageXS::Core
@@ -908,7 +910,7 @@ __END__
 
 =head1 NAME
 
-PortageXS::Core
+PortageXS::Core - Core behaviour role for C<PortageXS>
 
 =head1 VERSION
 

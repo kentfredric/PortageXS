@@ -8,7 +8,7 @@ BEGIN {
 {
   $PortageXS::Useflags::VERSION = '0.1.0';
 }
-
+# ABSTRACT: Useflag parsing utilities role for PortageXS
 # -----------------------------------------------------------------------------
 #
 # PortageXS::Useflags
@@ -225,7 +225,7 @@ __END__
 
 =head1 NAME
 
-PortageXS::Useflags
+PortageXS::Useflags - Useflag parsing utilities role for PortageXS
 
 =head1 VERSION
 

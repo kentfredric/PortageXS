@@ -8,7 +8,7 @@ BEGIN {
 {
   $PortageXS::System::VERSION = '0.1.0';
 }
-
+# ABSTRACT: System interactions role for PortageXS
 # -----------------------------------------------------------------------------
 #
 # PortageXS::System
@@ -88,7 +88,7 @@ __END__
 
 =head1 NAME
 
-PortageXS::System
+PortageXS::System - System interactions role for PortageXS
 
 =head1 VERSION
 
