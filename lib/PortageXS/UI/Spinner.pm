@@ -3,6 +3,7 @@ use warnings;
 
 package PortageXS::UI::Spinner;
 
+# ABSTRACT: Console progress spinner bling.
 # -----------------------------------------------------------------------------
 #
 # PortageXS::UI::Spinner
@@ -20,31 +21,101 @@ package PortageXS::UI::Spinner;
 #
 # -----------------------------------------------------------------------------
 
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			spin
-			reset
-		);
+use Moo;
+use IO::Handle;
 
-sub new {
-	my $self	= shift;
-	my $spin = bless {}, $self;
-	$spin->{'spinstate'}=0;
-	$|=1;
-	return $spin;
+=head1 SYNOPSIS
+
+    use PortageXS::UI::Spinner;
+
+    my $spinner = PortageXS::UI::Spinner->new();
+
+    for ( 0..1000 ){
+        sleep 0.1;
+        $spinner->spin;
+    }
+    $spinner->reset;
+
+=cut
+
+=attr spinstate
+
+=cut
+
+has spinstate => ( is => rwp =>, default => sub { 0 } );
+
+=attr output_handle
+
+=cut
+
+has output_handle => (
+    is => ro =>, default => sub {
+        my $handle = \*STDOUT;
+        $handle->autoflush(1);
+        return $handle;
+});
+
+=attr spinstates
+
+=cut
+
+has spinstates => ( is => ro =>, default => sub {
+    ['/', '-', '\\','|']
+});
+
+=p_method _last_spinstate
+
+=cut
+
+sub _last_spinstate {  return $#{ $_[0]->spinstates } }
+
+=p_method _increment_spinstate
+
+=cut
+
+sub _increment_spinstate {
+    my $self = shift;
+    my $rval = $self->spinstate;
+    my $nextstate = $rval + 1;
+    if ( $nextstate > $self->_last_spinstate ) {
+        $nextstate = 0;
+    }
+    $self->_set_spinstate($nextstate);
+    return $rval;
 }
+=p_method _get_next_spinstate
+
+=cut
+
+sub _get_next_spinstate {
+    my (@states) = @{ $_[0]->spinstates };
+    return $states[ $_[0]->_increment_spinstate ];
+}
+
+=p_method _print_to_output
+
+=cut
+
+sub _print_to_output {
+    my $self = shift;
+    $self->output_handle->print(@_);
+}
+
+=method spin
+
+=cut
 
 sub spin {
 	my $self	= shift;
-	print "\b".('/', '-', '\\', '|')[$self->{'spinstate'}++];
-	if ($self->{'spinstate'}>3) {
-		$self->{'spinstate'}=0;
-	}
+    $self->_print_to_output("\b" . $self->_get_next_spinstate );
 }
 
+=method reset
+
+=cut
+
 sub reset {
-	print "\b \b";
+    $_[0]->_print_to_output("\b \b");
 }
 
 1;
