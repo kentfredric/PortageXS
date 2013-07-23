@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Core::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Core::VERSION = '0.2.12';
+  $PortageXS::Core::VERSION = '0.3.0';
 }
 
 # ABSTRACT: Core behaviour role for C<PortageXS>
@@ -630,7 +630,7 @@ sub getFilesOfInstalledPackage {
 
 	# - find installed versions & loop >
 	foreach my $pkg ($self->searchInstalledPackage($package)) {
-		my $pkg = ( ref $pkg ? $pkg : do { 
+		my $pkg = ( ref $pkg ? $pkg : do {
 			path($self->{PKG_DB_DIR})->child($pkg);
 		});
 		foreach my $file_line ( $pkg->child('CONTENTS')->lines({ chomp => 1 } )) {
@@ -926,7 +926,7 @@ PortageXS::Core - Core behaviour role for C<PortageXS>
 
 =head1 VERSION
 
-version 0.2.12
+version 0.3.0
 
 =head1 AUTHORS
 

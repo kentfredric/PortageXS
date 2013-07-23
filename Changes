@@ -1,6 +1,6 @@
 Revision history for PortageXS
 
-0.2.12 2013-07-23T11:29:43Z
+0.3.0 2013-07-23T11:30:44Z
 
 0.2.11 2013-07-22T15:23:47Z
  - Package toolkit migrated to Dist::Zilla

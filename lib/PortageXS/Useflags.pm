@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Useflags::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Useflags::VERSION = '0.2.12';
+  $PortageXS::Useflags::VERSION = '0.3.0';
 }
 # ABSTRACT: Useflag parsing utilities role for PortageXS
 # -----------------------------------------------------------------------------
@@ -85,7 +85,7 @@ sub getUsedescs {
 	if ($package) {
 		if (-e $uselocaldesc) {
 			if (!$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}) {
-				$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}=$uselocaldesc->slurp(); 
+				$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'}=$uselocaldesc->slurp();
 			}
 
 			foreach (split(/\n/,$self->{'CACHE'}{'Useflags'}{'getUsedescs'}{$repo}{'use.local.desc'})) {
@@ -229,7 +229,7 @@ PortageXS::Useflags - Useflag parsing utilities role for PortageXS
 
 =head1 VERSION
 
-version 0.2.12
+version 0.3.0
 
 =head1 AUTHORS
 

@@ -19,7 +19,7 @@ my %module_build_args = (
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "PortageXS",
-  "dist_version" => "0.2.12",
+  "dist_version" => "0.3.0",
   "license" => "gpl",
   "module_name" => "PortageXS",
   "recommends" => {},
