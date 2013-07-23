@@ -2,10 +2,8 @@
 
 use Test::Simple tests => 32;
 
-use lib '../lib/';
-use lib 'lib/';
 use PortageXS;
-
+use Path::Tiny qw(path);
 my $pxs = PortageXS->new();
 ok(defined $pxs,'check if PortageXS->new() works');
 
@@ -14,7 +12,7 @@ ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
 
 # - getFileContents >
 {
-	my $content = $pxs->getFileContents('/etc/portage/make.conf');
+	my $content = path('/etc/portage/make.conf')->slurp();
 	ok($content ne '','getFileContents of /etc/portage/make.conf');
 }
 
