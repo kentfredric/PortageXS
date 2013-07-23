@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::VERSION = '0.3.0';
+  $PortageXS::VERSION = '0.2.12';
 }
 # ABSTRACT: Portage abstraction layer for perl
 
@@ -70,10 +70,10 @@ sub new {
 	my $pxs = bless {}, $self;
 
 	$pxs->{'VERSION'}			= $PortageXS::VERSION;
+	my $prefix = $pxs->{'PREFIX'}            = path('/');
 
-	$pxs->{'PORTDIR'}			= $pxs->getPortdir();
-	$pxs->{'PKG_DB_DIR'}			= '/var/db/pkg/';
-	$pxs->{'PATH_TO_WORLDFILE'}		= '/var/lib/portage/world';
+	$pxs->{'PKG_DB_DIR'}			= $prefix->child('var/db/pkg');
+	$pxs->{'PATH_TO_WORLDFILE'}		= $prefix->child('var/lib/portage/world');
 	$pxs->{'IS_INITIALIZED'}		= 1;
 
 	$pxs->{'EXCLUDE_DIRS'}{'.'}		= 1;
@@ -86,17 +86,22 @@ sub new {
 	$pxs->{'EXCLUDE_DIRS'}{'CVS'}		= 1;
 	$pxs->{'EXCLUDE_DIRS'}{'.cache'}	= 1;
 
-	$pxs->{'PORTAGEXS_ETC_DIR'}		= '/etc/pxs/';
-	$pxs->{'ETC_DIR'}			= '/etc/';
+	my $etc = $pxs->{'ETC_DIR'}			= $prefix->child('etc');
+	$pxs->{'PORTAGEXS_ETC_DIR'}		= $etc->child('pxs');
 
 	$pxs->{'MAKE_PROFILE_PATHS'} = [
-		'/etc/make.profile',
-		'/etc/portage/make.profile'
+		$etc->child('make.profile'),
+		$etc->child('portage/make.profile'),
+	];
+
+	$pxs->{'MAKE_GLOBALS_PATHS'} = [
+		$etc->child('make.globals'),
+		$prefix->child('usr/share/portage/config/make.globals'),
 	];
 
 	$pxs->{'MAKE_CONF_PATHS'} = [
-		'/etc/make.conf',
-		'/etc/portage/make.conf'
+		$etc->child('make.conf'),
+		$etc->child('portage/make.conf'),
 	];
 
 	for my $path ( @{ $pxs->{'MAKE_PROFILE_PATHS'} } ) {
@@ -113,6 +118,16 @@ sub new {
 	if ( not defined $pxs->{'MAKE_CONF_PATH'} ) {
 		die "Error, none of paths for `make.conf` exists." . join q{, }, @{ $pxs->{'MAKE_CONF_PATHS'} };
 	}
+	for my $path ( @{ $pxs->{'MAKE_GLOBALS_PATHS'} } ) {
+		next unless -e $path;
+		$pxs->{'MAKE_GLOBALS_PATH'} = $path;
+	}
+	if ( not defined $pxs->{'MAKE_GLOBALS_PATH'} ) {
+		die "Error, none of paths for `make.globals` exists." . join q{, }, @{ $pxs->{'MAKE_GLOBALS_PATHS'} };
+	}
+
+	$pxs->{'PORTDIR'}			= $pxs->getPortdir();
+
 	# - init colors >
 	$pxs->{'COLORS'}{'YELLOW'}		= color('bold yellow');
 	$pxs->{'COLORS'}{'GREEN'}		= color('green');
@@ -155,7 +170,7 @@ PortageXS - Portage abstraction layer for perl
 
 =head1 VERSION
 
-version 0.3.0
+version 0.2.12
 
 =head1 NAMING
 
@@ -175,6 +190,23 @@ Though the name says C<XS> in it, you'll see there is no C<XS> anywhere in the t
 =back
 
 As such, my preferred name would be C<Gentoo::Portage::API>, or something like that, but we're stuck for now.
+
+=head1 SIGNIFICANT CHANGES
+
+=head2 0.3.0 Series
+
+=head3 0.3.0
+
+=head4 Slurping Overhaul
+
+This module contains a lot of file slurping magic, in a few various forms, as well as path mangling
+and similar things.
+
+This release is a huge overhaul of how that works, and sufficiently more dependence is now placed on L<< C<Path::Tiny>|Path::Tiny >>'s head.
+
+C<getFileContents> is now deprecated, and will warn when called.
+
+However, the nature of this change is likely introduce a few bugs in places I may not have transformed the code properly, which may not be immediately obvservable.
 
 =head1 CHOPPING BLOCK
 

@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Core::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Core::VERSION = '0.3.0';
+  $PortageXS::Core::VERSION = '0.2.12';
 }
 
 # ABSTRACT: Core behaviour role for C<PortageXS>
@@ -118,7 +118,7 @@ sub getPortageMakeParam {
 	my $self		= shift;
 	my $param		= shift;
 	my @files		= ();
-	my @etcfiles		= qw(/usr/share/portage/config/make.globals /etc/make.conf);
+	my @etcfiles	= ( $self->{'MAKE_GLOBALS_PATH'}, $self->{'MAKE_CONF_PATH'}) ;
 	my $v			= '';
 	my $parent		= '';
 	my $curPath;
@@ -162,7 +162,7 @@ sub getPortageMakeParam {
 
 	# - Defaults >
 	if ($param eq 'PORTDIR' && !$v) {
-		$v='/usr/portage';
+		$v= $self->{PREFIX}->child('usr/portage');
 	}
 
 	return $v;
@@ -189,8 +189,8 @@ sub getPortdir {
 		return $self->{'PORTDIR'};
 	}
 	else {
-        my $content = path('/usr/share/portage/config/make.globals')->slurp;
-        $content .=  path('/etc/portage/make.conf')->slurp;
+        my $content = $self->{'MAKE_GLOBALS_PATH'}->slurp;
+        $content .=  $self->{'MAKE_CONF_PATH'}->slurp;
 
 		$self->{'PORTDIR'}=$self->getParamFromFile($content,'PORTDIR','lastseen');
 		return $self->{'PORTDIR'};
@@ -209,8 +209,10 @@ sub getPortdirOverlay {
 	my $self	= shift;
 	my $forcereload	= shift;
 
-    my $content = path('/usr/share/portage/config/make.globals')->slurp;
-    $content .=  path('/etc/make.conf')->slurp;
+    my $content = '';
+    
+    $content .=  path($self->{MAKE_GLOBALS_PATH})->slurp;
+    $content .=  path($self->{MAKE_CONF_PATH})->slurp;
 
 	return split(/ /, $self->getParamFromFile($content,'PORTDIR_OVERLAY','lastseen'));
 }
@@ -310,9 +312,6 @@ sub searchPackage {
 	my $searchString	= shift;
 	my $mode		= shift;
 	my $repo		= shift;
-	my $dhc;
-	my $dhp;
-	my $tc;
 	my $tp;
 	my @matches		= ();
 
@@ -325,51 +324,49 @@ sub searchPackage {
 		$searchString =~ s/\+/\\\+/g;
 
 		# - read categories >
-		$dhc = new DirHandle($repo);
+		my $dhc = path($repo)->iterator;
 		if (defined $dhc) {
-			while (defined($tc = $dhc->read)) {
+			while (defined(my $tc = $dhc->())) {
 				# - not excluded and $_ is a dir?
-				if (! $self->{'EXCLUDE_DIRS'}{$tc} && -d $repo.'/'.$tc) {
-					$dhp = new DirHandle($repo.'/'.$tc);
-					while (defined($tp = $dhp->read)) {
+				if (! $self->{'EXCLUDE_DIRS'}{$tc->basename} && -d $tc) {
+					my $dhp = $tc->iterator;
+                    next if not -r $tc;
+					while (defined( my $tp = $dhp->())) {
 						# - look up if entry matches the search
 						#  (much faster if we already check now) >
-						if ($tp =~m/$searchString/i) {
+						if ($tp->basename =~m/$searchString/i) {
 							# - not excluded and $_ is a dir?
-							if (! $self->{'EXCLUDE_DIRS'}{$tp} && -d $repo.'/'.$tc.'/'.$tp) {
-								push(@matches,$tc.'/'.$tp);
+							if (! $self->{'EXCLUDE_DIRS'}{$tp->basename} && -d $tp) {
+								push(@matches,$tc->basename.'/'.$tp->basename);
 							}
 						}
 					}
-					undef $dhp;
 				}
 			}
 		}
-		undef $dhc;
 	}
 	elsif ($mode eq 'exact') {
 		# - read categories >
-		$dhc = new DirHandle($repo);
+		my $dhc = path($repo)->iterator;
 		if (defined $dhc) {
-			while (defined($tc = $dhc->read)) {
+			while (defined(my $tc = $dhc->())) {
 				# - not excluded and $_ is a dir?
-				if (! $self->{'EXCLUDE_DIRS'}{$tc} && -d $repo.'/'.$tc) {
-					$dhp = new DirHandle($repo.'/'.$tc);
-					while (defined($tp = $dhp->read)) {
+				if (! $self->{'EXCLUDE_DIRS'}{$tc->basename} && -d $tc) {
+					my $dhp = $tc->iterator;
+                    next if not -r $tc;
+					while (defined(my $tp = $dhp->())) {
 						# - look up if entry matches the search
 						#  (much faster if we already check now) >
-						if ($tp eq $searchString) {
+						if ($tp->basename eq $searchString) {
 							# - not excluded and $_ is a dir?
-							if (! $self->{'EXCLUDE_DIRS'}{$tp} && -d $repo.'/'.$tc.'/'.$tp) {
-								push(@matches,$tc.'/'.$tp);
+							if (! $self->{'EXCLUDE_DIRS'}{$tp->basename} && -d $tp) {
+								push(@matches,$tc->basename.'/'.$tp->basename);
 							}
 						}
 					}
-					undef $dhp;
 				}
 			}
 		}
-		undef $dhc;
 	}
 
 	return (sort @matches);
@@ -904,7 +901,7 @@ sub searchPackageByHerd {
 		if (-e $metaxml ) {
 			my $buffer= $metaxml->slurp();
 			if ($buffer =~ m/<herd>$searchString(.*)?<\/herd>/i) {
-				push(@matches,$_);
+				push(@matches,$metaxml->parent);
 			}
 		}
 	}
@@ -926,7 +923,7 @@ PortageXS::Core - Core behaviour role for C<PortageXS>
 
 =head1 VERSION
 
-version 0.3.0
+version 0.2.12
 
 =head1 AUTHORS
 
