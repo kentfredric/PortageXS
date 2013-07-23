@@ -24,7 +24,8 @@ ok(-d $pxs->getPortdir(),'getPortdir: '.$pxs->getPortdir());
 
 # - getParamFromFile >
 {
-	my $param = $pxs->getParamFromFile($pxs->getFileContents('/etc/portage/make.conf'),'CFLAGS','lastseen');
+    my $content = path('/etc/portage/make.conf')->slurp();
+	my $param = $pxs->getParamFromFile($content,'CFLAGS','lastseen');
 	ok($param ne '','getParamFromFile /etc/portage/make.conf - CFLAGS: '.$param);
 }
 
