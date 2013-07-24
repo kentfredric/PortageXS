@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Core::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Core::VERSION = '0.2.12';
+  $PortageXS::Core::VERSION = '0.3.0';
 }
 
 # ABSTRACT: Core behaviour role for C<PortageXS>
@@ -189,9 +189,8 @@ sub getPortdir {
 		return $self->{'PORTDIR'};
 	}
 	else {
-        my $content = $self->{'MAKE_GLOBALS_PATH'}->slurp;
-        $content .=  $self->{'MAKE_CONF_PATH'}->slurp;
-
+		my $content = $self->{'MAKE_GLOBALS_PATH'}->slurp;
+		$content .=  $self->{'MAKE_CONF_PATH'}->slurp;
 		$self->{'PORTDIR'}=$self->getParamFromFile($content,'PORTDIR','lastseen');
 		return $self->{'PORTDIR'};
 	}
@@ -209,10 +208,10 @@ sub getPortdirOverlay {
 	my $self	= shift;
 	my $forcereload	= shift;
 
-    my $content = '';
-    
-    $content .=  path($self->{MAKE_GLOBALS_PATH})->slurp;
-    $content .=  path($self->{MAKE_CONF_PATH})->slurp;
+	my $content = '';
+
+	$content .=  path($self->{MAKE_GLOBALS_PATH})->slurp;
+	$content .=  path($self->{MAKE_CONF_PATH})->slurp;
 
 	return split(/ /, $self->getParamFromFile($content,'PORTDIR_OVERLAY','lastseen'));
 }
@@ -330,7 +329,7 @@ sub searchPackage {
 				# - not excluded and $_ is a dir?
 				if (! $self->{'EXCLUDE_DIRS'}{$tc->basename} && -d $tc) {
 					my $dhp = $tc->iterator;
-                    next if not -r $tc;
+					next if not -r $tc;
 					while (defined( my $tp = $dhp->())) {
 						# - look up if entry matches the search
 						#  (much faster if we already check now) >
@@ -353,7 +352,7 @@ sub searchPackage {
 				# - not excluded and $_ is a dir?
 				if (! $self->{'EXCLUDE_DIRS'}{$tc->basename} && -d $tc) {
 					my $dhp = $tc->iterator;
-                    next if not -r $tc;
+					next if not -r $tc;
 					while (defined(my $tp = $dhp->())) {
 						# - look up if entry matches the search
 						#  (much faster if we already check now) >
@@ -923,7 +922,7 @@ PortageXS::Core - Core behaviour role for C<PortageXS>
 
 =head1 VERSION
 
-version 0.2.12
+version 0.3.0
 
 =head1 AUTHORS
 

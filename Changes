@@ -1,9 +1,9 @@
 Revision history for PortageXS
 
-0.2.12 2013-07-23T15:05:39Z
+0.3.0 2013-07-24T05:27:46Z
  [00 MAJOR Changes]
- - Guts overhaulled so everywhere file IO was done directly, or via PortageXS::Core::getFileContents, it is 
-   instead now done by Path::Tiny.
+ - Guts overhaulled so everywhere file IO was done directly, or via
+   PortageXS::Core::getFileContents, it is instead now done by Path::Tiny.
  - DirHandle based traversal replaced by Path::Tiny iterate()
  - Many linewise readers replaced with shorter Path::Tiny->lines
  - BREAKAGES EXPECED
