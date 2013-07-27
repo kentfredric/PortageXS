@@ -1,6 +1,6 @@
 Revision history for PortageXS
 
-0.3.0 2013-07-27T06:10:08Z
+0.3.0 2013-07-27T06:11:03Z
  [00 Major Changes]
  - Color logic factored out into its own module
  - examples moved top level
@@ -9,7 +9,8 @@ Revision history for PortageXS
  - ::UI::Console has most its methods deprecated now
 
  [Bugfix]
- - another residual path to make.conf ... better solution still in the works.
+ - another residual path to make.conf ... better solution still in the
+   works.
 
  [Dependencies::Added / runtime requires]
  - Moo
