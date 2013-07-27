@@ -51,9 +51,12 @@ requires:
   Exporter: 0
   Moo: 0
   Path::Tiny: 0
+  Role::Tiny: 0
+  Role::Tiny::With: 0
   Scalar::Util: 0
   Shell::EnvImporter: 0
   Term::ANSIColor: 0
+  Tie::Hash::Method: 0
   overload: 0
   perl: v5.10.0
   strict: 0
@@ -75,6 +78,8 @@ x_BuiltWith:
     Module::Build: 0.4005
     Moo: 1.002
     Path::Tiny: 0.024
+    Role::Tiny: 1.002005
+    Role::Tiny::With: NA(undef)
     Scalar::Util: 1.27
     Shell::EnvImporter: 1.06
     Term::ANSIColor: 4.02
@@ -83,6 +88,7 @@ x_BuiltWith:
     Test::More: 0.98
     Test::Pod: 1.48
     Test::Simple: 0.98
+    Tie::Hash::Method: 0.02
     lib: 0.63
     overload: 1.22
     perl: 'NA(skipped: perl)'

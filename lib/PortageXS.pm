@@ -27,41 +27,15 @@ BEGIN {
 #
 # -----------------------------------------------------------------------------
 
-use PortageXS::Core;
-use PortageXS::System;
+use Role::Tiny::With;
+
+
+with 'PortageXS::Core';
+with 'PortageXS::System';
+with 'PortageXS::UI::Console';
+with 'PortageXS::Useflags';
+
 use PortageXS::Version;
-use PortageXS::UI::Console;
-use PortageXS::Useflags;
-use Term::ANSIColor;
-
-require Exporter;
-
-our @ISA = qw(Exporter);
-our @EXPORT = qw(
-			getArch
-			getPortdir
-			getPortdirOverlay
-			getFileContents
-			searchInstalledPackage
-			getParamFromFile
-			getUseSettingsOfInstalledPackage
-			printColored
-			print_ok
-			print_err
-			print_info
-			getPortageXScategorylist
-			getAvailableEbuilds
-			getBestEbuildVersion
-			cmdExecute
-			getAvailableArches
-			getPackagesFromCategory
-			fileBelongsToPackage
-			getFilesOfInstalledPackage
-			cmdAskUser
-			getHomedir
-			getEbuildVersion
-			getEbuildName
-		);
 
 sub colors {
     my $self = shift;
@@ -84,7 +58,26 @@ sub new {
 	my $self	= shift ;
 
 	my $pxs = bless {}, $self;
-
+    require Tie::Hash::Method;
+    my %blacklist = (
+        'COLORS' => 'please use pxs->colors ( PortageXS::Colors )'
+    );
+    tie %{$pxs}, 'Tie::Hash::Method' => (
+        FETCH => sub {
+            my ( $self, $key ) = @_;
+            if ( exists $blacklist{ $_[1] } ) {
+                die "$_[1] is gone: " . $blacklist{ $_[1] };
+            }
+            $_[0]->base_hash->{ $_[1] };
+        },
+        STORE => sub {
+            my ( $self, $key, $value ) = @_;
+            if ( exists $blacklist{ $_[1] } ) {
+                die "$_[1] is gone: " . $blacklist{ $_[1] };
+            }
+            $_[0]->base_hash->{ $_[1] } = $_[2];
+        }
+    );
 	$pxs->{'VERSION'}			= $PortageXS::VERSION;
 
 	$pxs->{'PORTDIR'}			= $pxs->getPortdir();

@@ -27,13 +27,8 @@ BEGIN {
 # -----------------------------------------------------------------------------
 
 use DirHandle;
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			cmdExecute
-			getHomedir
-		);
 
+use Role::Tiny;
 # Description:
 # Executes $program and returns it's returncode.
 # $returncode=cmdExecute($program);

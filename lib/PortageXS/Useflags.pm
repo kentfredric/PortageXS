@@ -27,15 +27,7 @@ BEGIN {
 # -----------------------------------------------------------------------------
 
 use DirHandle;
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			getUsedesc
-			getUsedescs
-			sortUseflags
-			getUsemasksFromProfile
-			getUsemasksFromProfileHelper
-		);
+use Role::Tiny;
 
 # Description:
 # Returns useflag description of the given useflag and repository.

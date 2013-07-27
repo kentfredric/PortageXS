@@ -26,18 +26,7 @@ BEGIN {
 #
 # -----------------------------------------------------------------------------
 
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			printColored
-			print_ok
-			print_err
-			print_info
-			setPrintColor
-			cmdAskUser
-			formatUseflags
-			disableColors
-		);
+use Role::Tiny;
 
 # Description:
 # Prints gentoo-style items.

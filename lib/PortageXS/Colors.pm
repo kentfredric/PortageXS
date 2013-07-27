@@ -10,6 +10,8 @@ BEGIN {
   $PortageXS::Colors::VERSION = '0.2.13';
 }
 
+# ABSTRACT: Colour formatting / translation for Gentoo
+
 use Path::Tiny;
 use Moo;
 
@@ -171,7 +173,7 @@ __END__
 
 =head1 NAME
 
-PortageXS::Colors
+PortageXS::Colors - Colour formatting / translation for Gentoo
 
 =head1 VERSION
 
