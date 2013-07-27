@@ -72,35 +72,35 @@
    "provides" : {
       "PortageXS" : {
          "file" : "lib/PortageXS.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       },
       "PortageXS::Colors" : {
          "file" : "lib/PortageXS/Colors.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       },
       "PortageXS::Core" : {
          "file" : "lib/PortageXS/Core.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       },
       "PortageXS::System" : {
          "file" : "lib/PortageXS/System.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       },
       "PortageXS::UI::Console" : {
          "file" : "lib/PortageXS/UI/Console.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       },
       "PortageXS::UI::Spinner" : {
          "file" : "lib/PortageXS/UI/Spinner.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       },
       "PortageXS::Useflags" : {
          "file" : "lib/PortageXS/Useflags.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       },
       "PortageXS::Version" : {
          "file" : "lib/PortageXS/Version.pm",
-         "version" : "v0.2.13"
+         "version" : "v0.3.0"
       }
    },
    "release_status" : "stable",
@@ -115,7 +115,7 @@
          "web" : "https://github.com/gentoo-perl/PortageXS"
       }
    },
-   "version" : "0.2.13",
+   "version" : "0.3.0",
    "x_BuiltWith" : {
       "modules" : {
          "Carp" : "1.29",

@@ -1,6 +1,21 @@
 Revision history for PortageXS
 
-0.2.13 2013-07-27T06:06:50Z
+0.3.0 2013-07-27T06:10:08Z
+ [00 Major Changes]
+ - Color logic factored out into its own module
+ - examples moved top level
+ - Exporter stuff replaced with Roles
+ - Hash is tied to warn about legacy code.
+ - ::UI::Console has most its methods deprecated now
+
+ [Bugfix]
+ - another residual path to make.conf ... better solution still in the works.
+
+ [Dependencies::Added / runtime requires]
+ - Moo
+ - Role::Tiny
+ - Role::Tiny::With
+ - Tie::Hash::Method
 
 0.2.12 2013-07-24T06:23:39Z
  [Bugfix]

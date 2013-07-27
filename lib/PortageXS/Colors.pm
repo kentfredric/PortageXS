@@ -7,7 +7,7 @@ BEGIN {
   $PortageXS::Colors::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Colors::VERSION = '0.2.13';
+  $PortageXS::Colors::VERSION = '0.3.0';
 }
 
 # ABSTRACT: Colour formatting / translation for Gentoo
@@ -176,7 +176,7 @@ PortageXS::Colors - Colour formatting / translation for Gentoo
 
 =head1 VERSION
 
-version 0.2.13
+version 0.3.0
 
 =head1 METHODS
 

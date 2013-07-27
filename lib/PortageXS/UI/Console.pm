@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::UI::Console::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::UI::Console::VERSION = '0.2.13';
+  $PortageXS::UI::Console::VERSION = '0.3.0';
 }
 # ABSTRACT: Console interface role for PortageXS
 # -----------------------------------------------------------------------------
@@ -207,7 +207,7 @@ PortageXS::UI::Console - Console interface role for PortageXS
 
 =head1 VERSION
 
-version 0.2.13
+version 0.3.0
 
 =head1 AUTHORS
 

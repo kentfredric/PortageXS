@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Core::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Core::VERSION = '0.2.13';
+  $PortageXS::Core::VERSION = '0.3.0';
 }
 
 # ABSTRACT: Core behaviour role for C<PortageXS>
@@ -898,7 +898,7 @@ PortageXS::Core - Core behaviour role for C<PortageXS>
 
 =head1 VERSION
 
-version 0.2.13
+version 0.3.0
 
 =head1 AUTHORS
 
