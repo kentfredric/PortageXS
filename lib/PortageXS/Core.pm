@@ -89,7 +89,7 @@ sub getPortageMakeParam {
 	my $self		= shift;
 	my $param		= shift;
 	my @files		= ();
-	my @etcfiles	= ( $self->{'MAKE_GLOBALS_PATH'}, $self->{'MAKE_CONF_PATH'}) ;
+	my @etcfiles	= ( @{ $self->paths->make_globals_list } ,@{ $self->paths->make_conf_list } );
 	my $v			= '';
 	my $parent		= '';
 	my $curPath;

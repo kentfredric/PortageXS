@@ -83,6 +83,30 @@ sub colors {
     };
 }
 
+sub colors {
+    my $self = shift;
+    return $self->{colors} if defined $self->{colors};
+    return $self->{colors} = do {
+        require PortageXS::Colors;
+	    my $colors  = PortageXS::Colors->new();
+       	my $makeconf = $self->getFileContents($self->{'MAKE_CONF_PATH'});
+	    my $want_nocolor = lc($self->getParamFromFile($makeconf,'NOCOLOR','lastseen'));
+    
+	    if ($want_nocolor eq 'true') {
+            $colors->disableColors;
+        }
+        $colors
+    };
+}
+
+sub paths {
+    my $self = shift;
+    return $self->{paths} if defined $self->{paths};
+    return $self->{paths} = do {
+        require PortageXS::Paths;
+	    PortageXS::Paths->new();
+    };
+}
 sub new {
 	my $self	= shift ;
 
@@ -112,8 +136,11 @@ sub new {
 	my $prefix = $pxs->{'PREFIX'}            = path('/');
 
 	$pxs->{'PKG_DB_DIR'}			= $prefix->child('var/db/pkg');
-	$pxs->{'PATH_TO_WORLDFILE'}		= $prefix->child('var/lib/portage/world');
-	$pxs->{'IS_INITIALIZED'}		= 1;
+    
+	$pxs->{'PKG_DB_DIR'}			= $pxs->paths->pkg_db_dir;
+	$pxs->{'PATH_TO_WORLDFILE'}		= $pxs->paths->worldfile; 
+	
+    $pxs->{'IS_INITIALIZED'}		= 1;
 
 	$pxs->{'EXCLUDE_DIRS'}{'.'}		= 1;
 	$pxs->{'EXCLUDE_DIRS'}{'..'}		= 1;
@@ -125,44 +152,32 @@ sub new {
 	$pxs->{'EXCLUDE_DIRS'}{'CVS'}		= 1;
 	$pxs->{'EXCLUDE_DIRS'}{'.cache'}	= 1;
 
-	my $etc = $pxs->{'ETC_DIR'}			= $prefix->child('etc');
-	$pxs->{'PORTAGEXS_ETC_DIR'}		= $etc->child('pxs');
+	$pxs->{'PORTAGEXS_ETC_DIR'}		= $pxs->paths->etc_pxs;
+	$pxs->{'ETC_DIR'}			= $pxs->paths->etc;
 
-	$pxs->{'MAKE_PROFILE_PATHS'} = [
-		$etc->child('make.profile'),
-		$etc->child('portage/make.profile'),
-	];
+	$pxs->{'MAKE_PROFILE_PATHS'} = $pxs->paths->make_profile_list;
+	$pxs->{'MAKE_CONF_PATHS'} = $pxs->paths->make_conf_list;
+    $pxs->{'MAKE_GLOBALS_PATHS'} = $pxs->paths->make_globals_list;
 
-	$pxs->{'MAKE_GLOBALS_PATHS'} = [
-		$etc->child('make.globals'),
-		$prefix->child('usr/share/portage/config/make.globals'),
-	];
+    my @flist = ( 
+        [ 'MAKE_PROFILE_PATHS', 'MAKE_PROFILE_PATH', 'make.profile' ],
+        [ 'MAKE_CONF_PATHS', 'MAKE_CONF_PATH', 'make.conf' ],
+        [ 'MAKE_GLOBALS_PATHS', 'MAKE_GLOBALS_PATH', 'make.globals' ],
+    );
+    for my $set ( @flist ) {
+        my ( $source_list_key, $target_key, $filename ) = @{$set};
+        my $source_list = $pxs->{$source_list_key};
+    	for my $path ( @{ $source_list } ) {
+            print "Trying $path\n";
+    		next unless -e $path;
+    		$pxs->{ $target_key } = $path;
+        }
+        if ( not defined $pxs->{$target_key} ) {
+            use Data::Dump qw(pp);
+            pp $pxs->paths;
 
-	$pxs->{'MAKE_CONF_PATHS'} = [
-		$etc->child('make.conf'),
-		$etc->child('portage/make.conf'),
-	];
-
-	for my $path ( @{ $pxs->{'MAKE_PROFILE_PATHS'} } ) {
-		next unless -e $path;
-		$pxs->{'MAKE_PROFILE_PATH'} = $path;
-	}
-	if ( not defined $pxs->{'MAKE_PROFILE_PATH'} ) {
-		die "Error, none of paths for `make.profile` exists." . join q{, }, @{ $pxs->{'MAKE_PROFILE_PATHS'} };
-	}
-	for my $path ( @{ $pxs->{'MAKE_CONF_PATHS'} } ) {
-		next unless -e $path;
-		$pxs->{'MAKE_CONF_PATH'} = $path;
-	}
-	if ( not defined $pxs->{'MAKE_CONF_PATH'} ) {
-		die "Error, none of paths for `make.conf` exists." . join q{, }, @{ $pxs->{'MAKE_CONF_PATHS'} };
-	}
-	for my $path ( @{ $pxs->{'MAKE_GLOBALS_PATHS'} } ) {
-		next unless -e $path;
-		$pxs->{'MAKE_GLOBALS_PATH'} = $path;
-	}
-	if ( not defined $pxs->{'MAKE_GLOBALS_PATH'} ) {
-		die "Error, none of paths for `make.globals` exists." . join q{, }, @{ $pxs->{'MAKE_GLOBALS_PATHS'} };
+            die "Error, none of the paths for `$filename` exists." . ( join q{, }, @{ $source_list } );
+        }
 	}
 
 	return $pxs;
