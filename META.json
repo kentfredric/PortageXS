@@ -46,7 +46,7 @@
             "Carp" : "0",
             "DirHandle" : "0",
             "Exporter" : "0",
-            "Moo" : "0",
+            "Moo" : "1.000008",
             "Role::Tiny" : "0",
             "Role::Tiny::With" : "0",
             "Scalar::Util" : "0",

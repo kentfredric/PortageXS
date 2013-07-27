@@ -1,6 +1,6 @@
 Revision history for PortageXS
 
-0.3.0 2013-07-27T06:11:03Z
+0.3.0 2013-07-27T06:13:05Z
  [00 Major Changes]
  - Color logic factored out into its own module
  - examples moved top level
@@ -13,7 +13,7 @@ Revision history for PortageXS
    works.
 
  [Dependencies::Added / runtime requires]
- - Moo
+ - Moo 1.000008
  - Role::Tiny
  - Role::Tiny::With
  - Tie::Hash::Method
