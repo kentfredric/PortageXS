@@ -1,6 +1,6 @@
 Revision history for PortageXS
 
-0.3.0 2013-07-24T05:27:46Z
+0.3.1 2013-07-27T08:47:50Z
  [00 MAJOR Changes]
  - Guts overhaulled so everywhere file IO was done directly, or via
    PortageXS::Core::getFileContents, it is instead now done by Path::Tiny.
@@ -22,6 +22,40 @@ Revision history for PortageXS
 
  [Misc]
  - Examples moved to top level
+
+0.3.0 2013-07-27T06:13:05Z
+ [00 Major Changes]
+ - Color logic factored out into its own module
+ - examples moved top level
+ - Exporter stuff replaced with Roles
+ - Hash is tied to warn about legacy code.
+ - ::UI::Console has most its methods deprecated now
+
+ [Bugfix]
+ - another residual path to make.conf ... better solution still in the
+   works.
+
+ [Dependencies::Added / runtime requires]
+ - Moo 1.000008
+ - Role::Tiny
+ - Role::Tiny::With
+ - Tie::Hash::Method
+
+0.2.12 2013-07-24T06:23:39Z
+ [Bugfix]
+ - Partial solution to b.g.o #264680, bailing on unreadable categories,
+   including non-categories that are also unreadable such as 'package'. Its
+   not ideal, but its better than bailing for a predominant chunk of users.
+
+ [Dependencies::Added / develop requires]
+ - Test::CPAN::Changes 0.19
+
+ [Documentation]
+ - Changelog retroactively touched up to work better with CPAN::Changes
+
+ [Internals]
+ - Refactored body of searchPackages into 2 smaller and more reusable
+   parts.
 
 0.2.11 2013-07-22T15:23:47Z
  - Package toolkit migrated to Dist::Zilla

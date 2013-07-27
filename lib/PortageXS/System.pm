@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::System::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::System::VERSION = '0.3.0';
+  $PortageXS::System::VERSION = '0.3.1';
 }
 # ABSTRACT: System interactions role for PortageXS
 # -----------------------------------------------------------------------------
@@ -26,13 +26,8 @@ BEGIN {
 #
 # -----------------------------------------------------------------------------
 
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			cmdExecute
-			getHomedir
-		);
 
+use Role::Tiny;
 # Description:
 # Executes $program and returns it's returncode.
 # $returncode=cmdExecute($program);
@@ -91,7 +86,17 @@ PortageXS::System - System interactions role for PortageXS
 
 =head1 VERSION
 
-version 0.3.0
+version 0.3.1
+
+=begin MetaPOD::JSON v1.1.0
+
+{
+    "namespace":"PortageXS::System",
+    "interface":"role"
+}
+
+
+=end MetaPOD::JSON
 
 =head1 AUTHORS
 

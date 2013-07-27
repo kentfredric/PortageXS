@@ -6,7 +6,7 @@ BEGIN {
   $PortageXS::Useflags::AUTHORITY = 'cpan:KENTNL';
 }
 {
-  $PortageXS::Useflags::VERSION = '0.3.0';
+  $PortageXS::Useflags::VERSION = '0.3.1';
 }
 # ABSTRACT: Useflag parsing utilities role for PortageXS
 # -----------------------------------------------------------------------------
@@ -27,15 +27,8 @@ BEGIN {
 # -----------------------------------------------------------------------------
 
 use Path::Tiny qw(path);
-require Exporter;
-our @ISA = qw(Exporter PortageXS);
-our @EXPORT = qw(
-			getUsedesc
-			getUsedescs
-			sortUseflags
-			getUsemasksFromProfile
-			getUsemasksFromProfileHelper
-		);
+use Role::Tiny;
+
 
 # Description:
 # Returns useflag description of the given useflag and repository.
@@ -179,7 +172,7 @@ sub getUsemasksFromProfile {
 
 		my @lines;
 
-		push @lines, path($self->{'PORTDIR'})->child('profiles/base/use.mask')->lines({ chomp => 1 });
+		push @lines, $self->portdir->child('profiles/base/use.mask')->lines({ chomp => 1 });
 		for my $file (reverse(@files)) {
 			push @lines, path($file)->lines({ chomp => 1 });
 		}
@@ -229,7 +222,17 @@ PortageXS::Useflags - Useflag parsing utilities role for PortageXS
 
 =head1 VERSION
 
-version 0.3.0
+version 0.3.1
+
+=begin MetaPOD::JSON v1.1.0
+
+{
+    "namespace":"PortageXS::Useflags",
+    "interface":"role"
+}
+
+
+=end MetaPOD::JSON
 
 =head1 AUTHORS
 
