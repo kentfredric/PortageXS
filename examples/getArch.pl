@@ -5,5 +5,5 @@ use strict;
 
 use PortageXS;
 
-my $pxs = PortageXS->new();
-print "Arch: " . $pxs->getArch() . "\n";
+my $pxs=PortageXS->new();
+print "Arch: ".$pxs->getArch()."\n";

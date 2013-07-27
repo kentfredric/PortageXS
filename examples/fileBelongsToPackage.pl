@@ -4,57 +4,29 @@ use warnings;
 use strict;
 
 use PortageXS;
-use PortageXS::UI::Spinner;
-use Time::HiRes qw( setitimer ITIMER_VIRTUAL );
 
-$| = 1;
+$|=1;
 
-my $pxs     = PortageXS->new();
-my $spinner = PortageXS::UI::Spinner->new();
+my $pxs=PortageXS->new();
+my $color = $pxs->colors;
 
-my $USAGE = <<"_USAGE_";
-    $0 /path/to/file
-
-    Finds packages shipping given file
-
-_USAGE_
-
-if ( not $ARGV[0] ) {
-    die $USAGE;
+if (!-f $ARGV[0]) {
+	$color->printColored('RED',"Given file does not exist - Aborting!\n");
 }
+else {
+	$color->printColored('LIGHTGREEN',"Searching for '".$ARGV[0]."'..");
 
-if ( !-f $ARGV[0] ) {
-    $pxs->printColored( RED => qq{Given file does not exist - Aborting!\n} );
-    exit 1;
+	my @results = $pxs->fileBelongsToPackage($ARGV[0]);
+
+	if ($#results>-1) {
+		print " done!\n\n";
+		$color->printColored('LIGHTGREEN',"The file '".$ARGV[0]."' was installed by these packages:\n");
+		print "   ".join("\n   ",@results)."\n";
+	}
+	else {
+		$color->printColored('RED',"This file has not been installed by portage.\n");
+	}
 }
-
-my @results;
-{
-    local $SIG{VTALRM} = sub {
-        $spinner->spin;
-    };
-    setitimer( ITIMER_VIRTUAL, 0.01, 0.01 );
-    $pxs->printColored(
-        LIGHTGREEN => sprintf q{Searching for '%s'..},
-        $ARGV[0]
-    );
-
-    @results = $pxs->fileBelongsToPackage( $ARGV[0] );
-    $spinner->reset;
-}
-
-print "\n";
-if ( $#results < 0 ) {
-    $pxs->printColored(
-        RED => qq{This file has not been installed by portage.\n} );
-    exit 2;
-}
-
-$pxs->printColored(
-    LIGHTGREEN => sprintf qq{The file '%s' was installed by these packages:\n},
-    $ARGV[0]
-);
-print q[   ] . join( qq[\n   ], @results ) . qq[\n];
 
 exit(0);
 

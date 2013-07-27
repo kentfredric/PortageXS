@@ -72,12 +72,12 @@
          "file" : "lib/PortageXS.pm",
          "version" : "v0.2.13"
       },
-      "PortageXS::Core" : {
-         "file" : "lib/PortageXS/Core.pm",
+      "PortageXS::Colors" : {
+         "file" : "lib/PortageXS/Colors.pm",
          "version" : "v0.2.13"
       },
-      "PortageXS::Paths" : {
-         "file" : "lib/PortageXS/Paths.pm",
+      "PortageXS::Core" : {
+         "file" : "lib/PortageXS/Core.pm",
          "version" : "v0.2.13"
       },
       "PortageXS::System" : {

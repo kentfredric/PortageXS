@@ -47,8 +47,8 @@ examples/searchPackageByHerd.pl
 examples/searchPackageByMaintainer.pl
 examples/spinner.pl
 lib/PortageXS.pm
+lib/PortageXS/Colors.pm
 lib/PortageXS/Core.pm
-lib/PortageXS/Paths.pm
 lib/PortageXS/System.pm
 lib/PortageXS/UI/Console.pm
 lib/PortageXS/UI/Spinner.pm
