@@ -1,5 +1,7 @@
 Revision history for PortageXS
 
+0.2.13 2013-07-27T03:15:29Z
+
 0.2.12 2013-07-24T06:23:39Z
  [Bugfix]
  - Partial solution to b.g.o #264680, bailing on unreadable categories,

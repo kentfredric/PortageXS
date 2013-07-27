@@ -23,29 +23,34 @@ name: PortageXS
 provides:
   PortageXS:
     file: lib/PortageXS.pm
-    version: v0.2.12
+    version: v0.2.13
   PortageXS::Core:
     file: lib/PortageXS/Core.pm
-    version: v0.2.12
+    version: v0.2.13
+  PortageXS::Paths:
+    file: lib/PortageXS/Paths.pm
+    version: v0.2.13
   PortageXS::System:
     file: lib/PortageXS/System.pm
-    version: v0.2.12
+    version: v0.2.13
   PortageXS::UI::Console:
     file: lib/PortageXS/UI/Console.pm
-    version: v0.2.12
+    version: v0.2.13
   PortageXS::UI::Spinner:
     file: lib/PortageXS/UI/Spinner.pm
-    version: v0.2.12
+    version: v0.2.13
   PortageXS::Useflags:
     file: lib/PortageXS/Useflags.pm
-    version: v0.2.12
+    version: v0.2.13
   PortageXS::Version:
     file: lib/PortageXS/Version.pm
-    version: v0.2.12
+    version: v0.2.13
 requires:
   Carp: 0
   DirHandle: 0
   Exporter: 0
+  Moo: 0
+  Path::Tiny: 0
   Scalar::Util: 0
   Shell::EnvImporter: 0
   Term::ANSIColor: 0
@@ -57,7 +62,7 @@ resources:
   bugtracker: https://github.com/gentoo-perl/PortageXS/issues
   homepage: https://github.com/gentoo-perl/PortageXS
   repository: https://github.com/gentoo-perl/PortageXS.git
-version: 0.2.12
+version: 0.2.13
 x_BuiltWith:
   modules:
     Carp: 1.29
@@ -68,6 +73,8 @@ x_BuiltWith:
     File::Find: 1.23
     File::Temp: 0.2301
     Module::Build: 0.4005
+    Moo: 1.002
+    Path::Tiny: 0.024
     Scalar::Util: 1.27
     Shell::EnvImporter: 1.06
     Term::ANSIColor: 4.02

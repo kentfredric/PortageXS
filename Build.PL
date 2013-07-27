@@ -19,7 +19,7 @@ my %module_build_args = (
     "Kent Fredric <kentnl\@cpan.org>"
   ],
   "dist_name" => "PortageXS",
-  "dist_version" => "0.2.12",
+  "dist_version" => "0.2.13",
   "license" => "gpl",
   "module_name" => "PortageXS",
   "recommends" => {},
@@ -28,6 +28,8 @@ my %module_build_args = (
     "Carp" => 0,
     "DirHandle" => 0,
     "Exporter" => 0,
+    "Moo" => 0,
+    "Path::Tiny" => 0,
     "Scalar::Util" => 0,
     "Shell::EnvImporter" => 0,
     "Term::ANSIColor" => 0,
