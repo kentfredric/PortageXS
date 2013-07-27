@@ -119,7 +119,7 @@ Usually /
 
 The path to the portage package database.
 
-Usually C<<<B<< <root> >>/var/db/pkg >>>
+Usually C<<< B<< <root> >>/var/db/pkg >>>
 
 =head1 AUTHORS
 
