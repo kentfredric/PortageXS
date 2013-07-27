@@ -83,22 +83,6 @@ sub colors {
     };
 }
 
-sub colors {
-    my $self = shift;
-    return $self->{colors} if defined $self->{colors};
-    return $self->{colors} = do {
-        require PortageXS::Colors;
-	    my $colors  = PortageXS::Colors->new();
-       	my $makeconf = $self->getFileContents($self->{'MAKE_CONF_PATH'});
-	    my $want_nocolor = lc($self->getParamFromFile($makeconf,'NOCOLOR','lastseen'));
-    
-	    if ($want_nocolor eq 'true') {
-            $colors->disableColors;
-        }
-        $colors
-    };
-}
-
 sub paths {
     my $self = shift;
     return $self->{paths} if defined $self->{paths};
@@ -168,7 +152,6 @@ sub new {
         my ( $source_list_key, $target_key, $filename ) = @{$set};
         my $source_list = $pxs->{$source_list_key};
     	for my $path ( @{ $source_list } ) {
-            print "Trying $path\n";
     		next unless -e $path;
     		$pxs->{ $target_key } = $path;
         }
