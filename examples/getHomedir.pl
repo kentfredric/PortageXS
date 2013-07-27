@@ -5,5 +5,5 @@ use strict;
 
 use PortageXS;
 
-my $pxs=PortageXS->new();
-print "Home: ".$pxs->getHomedir()."\n";
+my $pxs = PortageXS->new();
+print "Home: " . $pxs->getHomedir() . "\n";

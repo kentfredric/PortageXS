@@ -5,5 +5,5 @@ use strict;
 
 use PortageXS;
 
-my $pxs=PortageXS->new();
-print "Profile: ".$pxs->getProfilePath()."\n";
+my $pxs = PortageXS->new();
+print "Profile: " . $pxs->getProfilePath() . "\n";

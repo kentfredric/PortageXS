@@ -5,8 +5,8 @@ use strict;
 
 use PortageXS;
 
-my $pxs=PortageXS->new();
+my $pxs = PortageXS->new();
 
-print "Packages recorded in ".$pxs->{'PATH_TO_WORLDFILE'}."\n";
-print join("\n",$pxs->getPackagesFromWorld())."\n";
+print "Packages recorded in " . $pxs->{'PATH_TO_WORLDFILE'} . "\n";
+print join( "\n", $pxs->getPackagesFromWorld() ) . "\n";
 

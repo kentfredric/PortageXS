@@ -5,6 +5,6 @@ use strict;
 
 use PortageXS;
 
-my $pxs=PortageXS->new();
+my $pxs = PortageXS->new();
 print "Overlays:\n";
-print join("\n",$pxs->getPortdirOverlay())."\n";
+print join( "\n", $pxs->getPortdirOverlay() ) . "\n";

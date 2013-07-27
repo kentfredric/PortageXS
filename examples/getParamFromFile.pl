@@ -5,6 +5,14 @@ use strict;
 
 use PortageXS;
 
-my $pxs=PortageXS->new();
+my $pxs = PortageXS->new();
 print "CFLAGS are set to: ";
-print join(' ',$pxs->getParamFromFile($pxs->getFileContents('/etc/make.globals').$pxs->getFileContents('/etc/make.conf'),'CFLAGS','lastseen'))."\n";
+print join(
+    ' ',
+    $pxs->getParamFromFile(
+        $pxs->getFileContents('/etc/make.globals')
+          . $pxs->getFileContents('/etc/make.conf'),
+        'CFLAGS',
+        'lastseen'
+    )
+) . "\n";

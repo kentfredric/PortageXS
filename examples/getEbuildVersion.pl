@@ -5,9 +5,9 @@ use strict;
 
 use PortageXS;
 
-my $pxs=PortageXS->new();
+my $pxs = PortageXS->new();
 
-foreach ($pxs->searchInstalledPackage('*')) {
-	my $e=(split(/\//,$_))[1].".ebuild";
-	print $e." -> ".$pxs->getEbuildVersion($e)."\n";
+foreach ( $pxs->searchInstalledPackage('*') ) {
+    my $e = ( split( /\//, $_ ) )[1] . ".ebuild";
+    print $e. " -> " . $pxs->getEbuildVersion($e) . "\n";
 }
