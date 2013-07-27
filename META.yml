@@ -50,7 +50,6 @@ requires:
   DirHandle: 0
   Exporter: 0
   Moo: 0
-  Path::Tiny: 0
   Role::Tiny: 0
   Role::Tiny::With: 0
   Scalar::Util: 0
@@ -77,7 +76,6 @@ x_BuiltWith:
     File::Temp: 0.2301
     Module::Build: 0.4005
     Moo: 1.002
-    Path::Tiny: 0.024
     Role::Tiny: 1.002005
     Role::Tiny::With: NA(undef)
     Scalar::Util: 1.27

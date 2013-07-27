@@ -57,7 +57,6 @@ eval { $v .= pmver('File::Find','any version') };
 eval { $v .= pmver('File::Temp','any version') };
 eval { $v .= pmver('Module::Build','0.4005') };
 eval { $v .= pmver('Moo','any version') };
-eval { $v .= pmver('Path::Tiny','any version') };
 eval { $v .= pmver('Role::Tiny','any version') };
 eval { $v .= pmver('Role::Tiny::With','any version') };
 eval { $v .= pmver('Scalar::Util','any version') };

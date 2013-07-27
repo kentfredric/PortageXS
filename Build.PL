@@ -29,7 +29,6 @@ my %module_build_args = (
     "DirHandle" => 0,
     "Exporter" => 0,
     "Moo" => 0,
-    "Path::Tiny" => 0,
     "Role::Tiny" => 0,
     "Role::Tiny::With" => 0,
     "Scalar::Util" => 0,
